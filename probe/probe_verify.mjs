@@ -11,7 +11,7 @@ async function call(m,p,body,hdr){
 }
 const reg=await call('POST','/api/v1/auth/register',{email,username,password});
 console.log('REG',reg.s,reg.t.slice(0,200));
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_acct.json',JSON.stringify({email,username,password},null,2),'utf8');
+fs.writeFileSync('./_data/apitest_acct.json',JSON.stringify({email,username,password},null,2),'utf8');
 console.log('resend  ->',JSON.stringify(await call('POST','/api/v1/auth/resend-verification',{email})).slice(0,400));
 console.log('verifyGET->',JSON.stringify(await call('GET','/api/v1/auth/verify-email')));
 console.log('verifyPOST empty ->',JSON.stringify(await call('POST','/api/v1/auth/verify-email',{})));
