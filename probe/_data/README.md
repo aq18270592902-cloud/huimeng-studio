@@ -20,6 +20,7 @@
 ```bash
 mkdir -p probe/_data
 cd probe
+export PROBE_PWD='测试站口令'   # 必填，否则脚本 exit 2
 node probe_mailflow.mjs      # 先造账号，写出 _data/apitest_acct.json
 node probe_authed.mjs        # 登录，写出 _data/apitest_token.txt
 node probe_anon_surface.mjs  # 未授权面扫描（不需要账号）
@@ -28,7 +29,8 @@ node probe_anon_surface.mjs  # 未授权面扫描（不需要账号）
 ## 依赖
 
 - `probe/lib_captcha.mjs`（仓库内）—— 滑块验证码求解，被 `probe_oss.mjs` 等引用。
+- `probe/lib_pwd.mjs`（仓库内）—— 从 `PROBE_PWD` 读测试口令，被 12 个需要登录的脚本引用。
 - `docs/endpoints.txt`（仓库内）—— 接口清单，被 `probe_anon_surface.mjs` 引用。
 - 其余脚本不依赖仓库外文件。
 
-> 全部脚本只跑 GET/POST 探测，不修改上游数据；密码字段里的 `Passw0rd!23` / `Test123456` 是测试环境固定口令，不是真实凭据。
+> 全部脚本只跑 GET/POST 探测，不修改上游数据。测试口令不再写进仓库：跑之前 `export PROBE_PWD='…'`，脚本统一从 `probe/lib_pwd.mjs` 读，不设就 exit 2。
