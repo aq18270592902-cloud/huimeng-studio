@@ -158,8 +158,8 @@
       <label for="prompt">画面描述</label>
       <textarea id="prompt" placeholder="例：一只赛博朋克风格的黑猫，霓虹灯下，电影感打光，超细节">一只赛博朋克风格的黑猫，坐在雨夜的霓虹街头，湿润的毛发反光，电影感打光，浅景深，超精细</textarea>
 
-      <label>模式</label>
-      <div class="seg" id="mode">
+      <label id="lblMode">模式</label>
+      <div class="seg" id="mode" role="group" aria-labelledby="lblMode">
         <button data-mode="img" class="on">文生图</button>
         <button data-mode="vid">图生视频</button>
       </div>
@@ -168,8 +168,8 @@
       <select id="model"></select>
 
       <div id="imgOpts">
-        <label>画面比例</label>
-        <div class="seg" id="ratio">
+        <label id="lblRatio">画面比例</label>
+        <div class="seg" id="ratio" role="group" aria-labelledby="lblRatio">
           <button data-v="16:9" class="on">16:9</button>
           <button data-v="1:1">1:1</button>
           <button data-v="9:16">9:16</button>
