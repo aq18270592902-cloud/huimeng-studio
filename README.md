@@ -47,6 +47,25 @@
 
 ---
 
+## 界面预览
+
+<table>
+<tr>
+<td width="60%" align="center">
+<img src="./assets/ui_v12_final.png" alt="文生图界面" width="100%"><br>
+<sub><b>文生图</b> · 左栏参数 + 右栏产物，40~80 秒出图</sub>
+</td>
+<td width="40%" align="center">
+<img src="./assets/ui_v13_vid.png" alt="图生视频界面" width="100%"><br>
+<sub><b>图生视频</b> · 首帧 URL + 时长 / 分辨率</sub>
+</td>
+</tr>
+</table>
+
+> 桌面版（WinForms）实拍，网页版布局一致。Token 走本机 `localStorage` / `cfg.ini`，界面与源码里都不内置。
+
+---
+
 ## 仓库结构
 
 ```
@@ -55,10 +74,10 @@ huimeng-studio/
 ├── site.webmanifest        PWA 清单
 ├── sw.js                   离线缓存（可选注册）
 ├── 404.html                自定义错误页
-├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图
+├── assets/                 og.png 分享图 + 4 尺寸图标 + 2 张 UI 截图
 ├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat（cfg.ini 本地放 token，不入库）
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
-├── demo/                   实测样例：5 张出图（1600px JPEG，约 620KB，直接随仓库分发）
+├── demo/                   实测样例：5 张出图（1600px JPEG，合计 622KB）
 │                          4 段视频（共 11MB）已移到 Release 附件，见下方「视频样例」
 └── probe/                  88 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
 ```
