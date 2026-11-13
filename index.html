@@ -69,11 +69,11 @@
   .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:20px}
   .gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:.16s}
   .gallery img:hover{border-color:var(--acc);transform:scale(1.03)}
-  .sec-title{margin:38px 0 14px;font-size:15px;letter-spacing:.4px;display:flex;align-items:center;gap:9px}
+  .sec-title{margin:38px 0 14px;font-size:15px;font-weight:600;letter-spacing:.4px;display:flex;align-items:center;gap:9px}
   .sec-title::before{content:"";width:3px;height:15px;border-radius:2px;background:linear-gradient(var(--acc),var(--acc2))}
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
   .mini{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px}
-  .mini h4{margin:0 0 7px;font-size:13.5px}
+  .mini h3{margin:0 0 7px;font-size:13.5px}
   .mini p{margin:0;font-size:12px;color:var(--dim);line-height:1.75}
   footer{margin:44px 0 30px;padding-top:20px;border-top:1px solid var(--line);color:#5d6579;font-size:12px;line-height:2}
   .warn{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.3);color:#fcd34d;
@@ -155,7 +155,7 @@
 
   <div class="grid">
     <div class="card">
-      <label>画面描述</label>
+      <label for="prompt">画面描述</label>
       <textarea id="prompt" placeholder="例：一只赛博朋克风格的黑猫，霓虹灯下，电影感打光，超细节">一只赛博朋克风格的黑猫，坐在雨夜的霓虹街头，湿润的毛发反光，电影感打光，浅景深，超精细</textarea>
 
       <label>模式</label>
@@ -164,7 +164,7 @@
         <button data-mode="vid">图生视频</button>
       </div>
 
-      <label>模型</label>
+      <label for="model">模型</label>
       <select id="model"></select>
 
       <div id="imgOpts">
@@ -178,12 +178,12 @@
       </div>
 
       <div id="vidOpts" style="display:none">
-        <label>首帧图片 URL（必填）</label>
+        <label for="firstImage">首帧图片 URL（必填）</label>
         <input id="firstImage" placeholder="https://.../frame.png">
         <div class="row">
-          <div><label>时长（秒）</label>
+          <div><label for="dur">时长（秒）</label>
             <select id="dur"><option>4</option><option>5</option><option selected>10</option><option>15</option></select></div>
-          <div><label>分辨率</label>
+          <div><label for="res">分辨率</label>
             <select id="res"><option>480p</option><option selected>720p</option></select></div>
         </div>
       </div>
@@ -205,15 +205,15 @@
 
   <div id="logBox" class="log" style="display:none"></div>
 
-  <div class="sec-title">本次生成</div>
+  <h2 class="sec-title">本次生成</h2>
   <div class="gallery" id="gallery"></div>
 
-  <div class="sec-title">这套东西是什么</div>
+  <h2 class="sec-title">这套东西是什么</h2>
   <div class="cards">
-    <div class="mini"><h4>🌐 纯前端直连</h4><p>页面不经过任何自建后端，浏览器直接请求 <code>api.dimnx.com</code>。上游返回 <code>Access-Control-Allow-Origin</code> 回显，所以 GitHub Pages 这类静态托管可以直接跑。</p></div>
-    <div class="mini"><h4>🖥️ 桌面版 exe</h4><p>C# WinForms 客户端 <code>DreamVideo.exe</code>，支持 4 个文生图模型 + 图生视频，配置文件 <code>cfg.ini</code> 存 token，见仓库 <code>tools/</code>。</p></div>
-    <div class="mini"><h4>📦 数据与报告</h4><p><code>docs/</code> 下有完整逆向报告、40+ 模型目录（含参数 schema 与计价表）、全部接口清单。</p></div>
-    <div class="mini"><h4>🧪 探测脚本</h4><p><code>probe/</code> 下 88 个 .mjs 脚本，覆盖鉴权、SSO、验证码、OSS、限流等全部实测面。</p></div>
+    <div class="mini"><h3>🌐 纯前端直连</h3><p>页面不经过任何自建后端，浏览器直接请求 <code>api.dimnx.com</code>。上游返回 <code>Access-Control-Allow-Origin</code> 回显，所以 GitHub Pages 这类静态托管可以直接跑。</p></div>
+    <div class="mini"><h3>🖥️ 桌面版 exe</h3><p>C# WinForms 客户端 <code>DreamVideo.exe</code>，支持 4 个文生图模型 + 图生视频，配置文件 <code>cfg.ini</code> 存 token，见仓库 <code>tools/</code>。</p></div>
+    <div class="mini"><h3>📦 数据与报告</h3><p><code>docs/</code> 下有完整逆向报告、40+ 模型目录（含参数 schema 与计价表）、全部接口清单。</p></div>
+    <div class="mini"><h3>🧪 探测脚本</h3><p><code>probe/</code> 下 88 个 .mjs 脚本，覆盖鉴权、SSO、验证码、OSS、限流等全部实测面。</p></div>
   </div>
 
   <footer>
@@ -224,7 +224,7 @@
   </footer>
 </div>
 
-<dialog id="dlg"><img id="dlgImg" alt=""></dialog>
+<dialog id="dlg"><img id="dlgImg" alt="生成结果预览"></dialog>
 
 <script>
 const BASE = 'https://api.dimnx.com/api';
