@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>绘梦工坊 Studio · 在线出图 / 图生视频</title>
+<meta name="description" content="绘梦工坊（huimengi / dimnx）逆向工程与在线生成工具：文生图、图生视频，纯浏览器直连上游 API。">
+<style>
+  :root{
+    --bg:#07080d; --panel:#0f1119; --panel2:#151827; --line:#232a3d;
+    --txt:#e8ecf5; --dim:#8b93a8; --acc:#7c5cff; --acc2:#22d3ee; --ok:#34d399; --warn:#fbbf24; --err:#f87171;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  body{background:
+    radial-gradient(900px 500px at 12% -8%, rgba(124,92,255,.28), transparent 62%),
+    radial-gradient(800px 460px at 92% 4%, rgba(34,211,238,.16), transparent 60%),
+    var(--bg);
+    min-height:100vh}
+  a{color:var(--acc2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  header{padding:34px 0 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:21px;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 8px 26px rgba(124,92,255,.45)}
+  h1{font-size:21px;margin:0;letter-spacing:.3px}
+  .sub{color:var(--dim);font-size:12.5px;margin-top:3px}
+  .spacer{flex:1}
+  .pill{font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel);color:var(--dim);white-space:nowrap}
+  .pill b{color:var(--ok);font-weight:600}
+  .grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:20px;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+    border-radius:16px;padding:18px}
+  label{display:block;font-size:12px;color:var(--dim);margin:14px 0 7px;letter-spacing:.4px}
+  label:first-child{margin-top:0}
+  textarea,input,select{width:100%;background:#0a0c14;color:var(--txt);border:1px solid var(--line);
+    border-radius:10px;padding:11px 12px;font-size:13.5px;font-family:inherit;outline:none;transition:.16s}
+  textarea{resize:vertical;min-height:96px;line-height:1.6}
+  textarea:focus,input:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,92,255,.16)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:56px;background:#0a0c14;border:1px solid var(--line);color:var(--dim);
+    padding:9px 6px;border-radius:9px;font-size:12.5px;cursor:pointer;transition:.16s;font-family:inherit}
+  .seg button:hover{border-color:#39415c;color:var(--txt)}
+  .seg button.on{background:linear-gradient(135deg,rgba(124,92,255,.32),rgba(34,211,238,.18));
+    border-color:var(--acc);color:#fff}
+  .go{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;font-size:14.5px;font-weight:600;
+    color:#fff;cursor:pointer;font-family:inherit;letter-spacing:.4px;
+    background:linear-gradient(135deg,var(--acc),#4f8cff);box-shadow:0 10px 30px rgba(124,92,255,.34);transition:.18s}
+  .go:hover{transform:translateY(-1px);box-shadow:0 14px 36px rgba(124,92,255,.46)}
+  .go:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+  .hint{font-size:11.5px;color:var(--dim);margin-top:10px;line-height:1.65}
+  .stage{min-height:420px;display:grid;place-items:center;position:relative;overflow:hidden}
+  .empty{text-align:center;color:var(--dim);font-size:13px;line-height:2}
+  .empty .big{font-size:40px;opacity:.5;display:block;margin-bottom:10px}
+  .media{width:100%;border-radius:12px;display:block}
+  .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--dim)}
+  .bar .tag{background:#0a0c14;border:1px solid var(--line);padding:4px 9px;border-radius:7px}
+  .log{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11.5px;color:#7f8aa3;
+    background:#080a10;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:12px;
+    max-height:120px;overflow:auto;white-space:pre-wrap;line-height:1.7}
+  .prog{height:3px;background:#141827;border-radius:99px;overflow:hidden;margin-top:14px}
+  .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));
+    transition:width .4s}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:20px}
+  .gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:.16s}
+  .gallery img:hover{border-color:var(--acc);transform:scale(1.03)}
+  .sec-title{margin:38px 0 14px;font-size:15px;letter-spacing:.4px;display:flex;align-items:center;gap:9px}
+  .sec-title::before{content:"";width:3px;height:15px;border-radius:2px;background:linear-gradient(var(--acc),var(--acc2))}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .mini{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px}
+  .mini h4{margin:0 0 7px;font-size:13.5px}
+  .mini p{margin:0;font-size:12px;color:var(--dim);line-height:1.75}
+  footer{margin:44px 0 30px;padding-top:20px;border-top:1px solid var(--line);color:#5d6579;font-size:12px;line-height:2}
+  .warn{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.3);color:#fcd34d;
+    border-radius:11px;padding:11px 13px;font-size:12px;line-height:1.7;margin-top:14px}
+  .badge{display:inline-block;font-size:10.5px;padding:2px 7px;border-radius:5px;background:rgba(124,92,255,.18);
+    color:#b9a8ff;border:1px solid rgba(124,92,255,.35);margin-left:6px;vertical-align:1px}
+  dialog{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:0;max-width:92vw;max-height:92vh}
+  dialog::backdrop{background:rgba(0,0,0,.82)}
+  dialog img{display:block;max-width:90vw;max-height:86vh}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🎨</div>
+    <div>
+      <h1>绘梦工坊 Studio <span class="badge">LIVE</span></h1>
+      <div class="sub">浏览器直连上游 API · 文生图 / 图生视频 · 无需安装</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="pill">积分 <b id="pts">—</b></div>
+    <div class="pill" id="engine">api.dimnx.com</div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <label>画面描述</label>
+      <textarea id="prompt" placeholder="例：一只赛博朋克风格的黑猫，霓虹灯下，电影感打光，超细节">一只赛博朋克风格的黑猫，坐在雨夜的霓虹街头，湿润的毛发反光，电影感打光，浅景深，超精细</textarea>
+
+      <label>模式</label>
+      <div class="seg" id="mode">
+        <button data-mode="img" class="on">文生图</button>
+        <button data-mode="vid">图生视频</button>
+      </div>
+
+      <label>模型</label>
+      <select id="model"></select>
+
+      <div id="imgOpts">
+        <label>画面比例</label>
+        <div class="seg" id="ratio">
+          <button data-v="16:9" class="on">16:9</button>
+          <button data-v="1:1">1:1</button>
+          <button data-v="9:16">9:16</button>
+          <button data-v="4:3">4:3</button>
+        </div>
+      </div>
+
+      <div id="vidOpts" style="display:none">
+        <label>首帧图片 URL（必填）</label>
+        <input id="firstImage" placeholder="https://.../frame.png">
+        <div class="row">
+          <div><label>时长（秒）</label>
+            <select id="dur"><option>4</option><option>5</option><option selected>10</option><option>15</option></select></div>
+          <div><label>分辨率</label>
+            <select id="res"><option>480p</option><option selected>720p</option></select></div>
+        </div>
+      </div>
+
+      <button class="go" id="go">开始生成</button>
+      <div class="hint" id="costHint">z-image-turbo ≈ 1.7 积分 / 张</div>
+      <div class="hint">上游已知行为：任务最终会返回 <code>FAILED</code>，但产物 URL 已生成、积分不扣。看到 FAILED 不要重跑。</div>
+    </div>
+
+    <div class="card stage" id="stage">
+      <div class="empty" id="empty">
+        <span class="big">🖼️</span>
+        填好描述，点「开始生成」<br>结果会出现在这里
+      </div>
+      <div id="result" style="width:100%;display:none"></div>
+      <div class="prog" id="prog" style="display:none"><i></i></div>
+    </div>
+  </div>
+
+  <div id="logBox" class="log" style="display:none"></div>
+
+  <div class="sec-title">本次生成</div>
+  <div class="gallery" id="gallery"></div>
+
+  <div class="sec-title">这套东西是什么</div>
+  <div class="cards">
+    <div class="mini"><h4>🌐 纯前端直连</h4><p>页面不经过任何自建后端，浏览器直接请求 <code>api.dimnx.com</code>。上游返回 <code>Access-Control-Allow-Origin</code> 回显，所以 GitHub Pages 这类静态托管可以直接跑。</p></div>
+    <div class="mini"><h4>🖥️ 桌面版 exe</h4><p>C# WinForms 客户端 <code>DreamVideo.exe</code>，支持 4 个文生图模型 + 图生视频，配置文件 <code>cfg.ini</code> 存 token，见仓库 <code>tools/</code>。</p></div>
+    <div class="mini"><h4>📦 数据与报告</h4><p><code>docs/</code> 下有完整逆向报告、40+ 模型目录（含参数 schema 与计价表）、全部接口清单。</p></div>
+    <div class="mini"><h4>🧪 探测脚本</h4><p><code>probe/</code> 下 88 个 .mjs 脚本，覆盖鉴权、SSO、验证码、OSS、限流等全部实测面。</p></div>
+  </div>
+
+  <footer>
+    <div>上游：<code>api.dimnx.com</code> · 主站 <code>huimengi.com</code> · 计费 <code>/api/billing/points</code></div>
+    <div>页面内置的是仓库所有者的测试账号 token（30 积分），用完即止；换成你自己的 token 见 README。</div>
+    <div>本项目为逆向研究产物，代码与接口资料按现状提供。</div>
+  </footer>
+</div>
+
+<dialog id="dlg"><img id="dlgImg" alt=""></dialog>
+
+<script>
+const BASE = 'https://api.dimnx.com/api';
+const TENANT_ID = '2119644316638302210';
+const TENANT_CODE = 'THtf7Yx14fgV';
+// 所有者测试账号业务 token（无 exp 字段，长期有效；积分 30）
+const DEFAULT_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjIxMTk2NDQzMTY2NTUwNzk0MjYsInJuU3RyIjoiRDlMSjdER0h2OWFRT2V5dEZFcUpqN2N6NENhSVlRN2UiLCJpcCI6IjE4My4yMTguMzYuMTczIiwiYWRkcmVzcyI6IuS4reWbvXzmsZ_opb_nnIF85a6c5pil5biCfOenu-WKqCIsImJyb3dzZXIiOiJDaHJvbWUgMTQwIiwib3MiOiJVbmtub3duIiwibG9naW5UaW1lIjoxNzk0MTk3OTA0fQ.93wIBQY-nNKWQo44B0qiXLprBwjRBfKSscycDxdpKRE';
+
+const MODELS = {
+  img: [
+    { id:'z-image-turbo', tt:'TEXT_TO_IMAGE_Z_IMAGE_TURBO', name:'Z-Image Turbo', note:'最快 · 1.7 积分' },
+    { id:'seedream-4-5',  tt:'TEXT_TO_IMAGE_SEEDREAM_4_5',  name:'Seedream 4.5',  note:'写实细腻 · 4.25 积分' },
+    { id:'nanobana-2-1',  tt:'TEXT_TO_IMAGE_NANOBANA_2_1',  name:'NanoBanana 2.1',note:'创意风格 · 4 积分' },
+    { id:'mj-8-2',        tt:'TEXT_TO_IMAGE_MJ_8_2',        name:'Midjourney v8.2',note:'艺术氛围 · 5 积分' },
+  ],
+  vid: [
+    { id:'seedance-2-0-mini', tt:'IMAGE_TO_VIDEO_SEEDANCE_2_0_MINI', name:'Seedance 2.0 Mini', note:'4~15s · 480p/720p' },
+    { id:'seedance-2-0-fast', tt:'IMAGE_TO_VIDEO_SEEDANCE_2_0_FAST', name:'Seedance 2.0 Fast', note:'更快' },
+  ],
+};
+const ENTITY = { img:'910141757437563478', vid:'910141757995405936' };
+
+const $ = s => document.querySelector(s);
+let mode = 'img', ratio = '16:9', busy = false;
+const TOKEN = localStorage.getItem('hm_token') || DEFAULT_TOKEN;
+
+const H = () => ({
+  'authorization': 'Bearer ' + TOKEN,
+  'x-tenant-id': TENANT_ID,
+  'x-tenant-code': TENANT_CODE,
+  'content-type': 'application/json'
+});
+
+function log(msg){
+  const box = $('#logBox'); box.style.display='block';
+  box.textContent += (box.textContent ? '\n' : '') + msg;
+  box.scrollTop = box.scrollHeight;
+}
+function setProg(p){
+  const w = $('#prog');
+  if(p<=0){ w.style.display='none'; w.firstElementChild.style.width='0'; return; }
+  w.style.display='block'; w.firstElementChild.style.width = Math.min(100,p)+'%';
+}
+async function api(path, opt={}){
+  const r = await fetch(BASE+path, { ...opt, headers: H() });
+  const t = await r.text();
+  try { return JSON.parse(t); } catch { return { raw:t.slice(0,300), _status:r.status }; }
+}
+async function refreshPoints(){
+  try{
+    const d = await api('/billing/points');
+    const p = d?.data?.points;
+    $('#pts').textContent = (p===undefined||p===null) ? '—' : p;
+  }catch(e){ $('#pts').textContent='离线'; }
+}
+
+// 模型下拉
+function fillModels(){
+  const sel = $('#model'); sel.innerHTML='';
+  for(const m of MODELS[mode]){
+    const o = document.createElement('option');
+    o.value = m.id; o.textContent = m.name + ' — ' + m.note;
+    sel.appendChild(o);
+  }
+  $('#costHint').textContent = mode==='img'
+    ? '当前模型约 1.7 ~ 5 积分 / 张'
+    : '视频按分辨率与时长计费，Mini 最省';
+  $('#imgOpts').style.display = mode==='img' ? '' : 'none';
+  $('#vidOpts').style.display = mode==='vid' ? '' : 'none';
+}
+
+$('#mode').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  [...$('#mode').children].forEach(x=>x.classList.toggle('on', x===b));
+  mode = b.dataset.mode; fillModels();
+});
+$('#ratio').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  [...$('#ratio').children].forEach(x=>x.classList.toggle('on', x===b));
+  ratio = b.dataset.v;
+});
+
+async function poll(id, wantVideo){
+  for(let i=0;i<90;i++){
+    await new Promise(r=>setTimeout(r,4000));
+    setProg(10 + Math.min(80, i*2));
+    const d = (await api('/tasks/'+id))?.data || {};
+    const rr = d.output_data?.result_response?.result || {};
+    const url = wantVideo ? (rr.video_url || rr.video_urls?.[0])
+                          : (rr.image_url || rr.image_urls?.[0]);
+    if(url) return { url, status:d.status };
+    if(d.status==='FAILED' || d.status==='COMPLETED'){
+      return { url:null, status:d.status, err:d.error_message };
+    }
+    if(i%3===0) log('  轮询 ' + (i*4) + 's · 状态 ' + (d.status||'?'));
+  }
+  return { url:null, status:'TIMEOUT' };
+}
+
+async function run(){
+  if(busy) return;
+  const prompt = $('#prompt').value.trim();
+  if(!prompt){ alert('先写画面描述'); return; }
+  const model = $('#model').value;
+  const isVid = mode==='vid';
+
+  busy = true; $('#go').disabled = true; $('#go').textContent = '生成中…';
+  $('#empty').style.display='none'; $('#result').style.display='none';
+  $('#logBox').textContent=''; $('#logBox').style.display='block';
+  setProg(4);
+
+  try{
+    let body, path;
+    if(isVid){
+      const img = $('#firstImage').value.trim();
+      if(!img){ alert('图生视频需要首帧图片 URL'); throw new Error('missing first image'); }
+      path = '/aigc/image-to-video/' + model;
+      body = { taskType: MODELS.vid.find(m=>m.id===model).tt, entityType:'storyboard',
+               entityId: ENTITY.vid, count:1,
+               config:{ prompt, duration:Number($('#dur').value), resolution:$('#res').value, firstImage:img } };
+    }else{
+      path = '/aigc/text-to-image/' + model;
+      body = { taskType: MODELS.img.find(m=>m.id===model).tt, entityType:'character',
+               entityId: ENTITY.img, count:1, config:{ prompt, aspectRatio: ratio } };
+    }
+
+    log('[1] 提交 ' + model);
+    const sub = await api(path, { method:'POST', body: JSON.stringify(body) });
+    const id = sub?.data?.[0];
+    if(!id){ log('提交失败: ' + JSON.stringify(sub).slice(0,300)); throw new Error('submit failed'); }
+    log('[2] 任务ID ' + id + ' · 等待中（通常 40~80s）');
+    setProg(10);
+    await refreshPoints();
+
+    const { url, status, err } = await poll(id, isVid);
+    if(!url){
+      log('[!] 未取到产物 · 状态 ' + status + (err ? ' · ' + err : ''));
+      setProg(0);
+      throw new Error('no output');
+    }
+    log('[3] 已取到产物 · 任务状态 ' + status + (status==='FAILED' ? '（上游误报，产物有效）' : ''));
+
+    const res = $('#result'); res.innerHTML=''; res.style.display='block';
+    let node;
+    if(isVid){
+      node = document.createElement('video');
+      node.src = url; node.controls = true; node.autoplay = true; node.loop = true; node.className='media';
+    }else{
+      node = document.createElement('img');
+      node.src = url; node.alt = prompt; node.className='media';
+      node.onclick = ()=>{ $('#dlgImg').src = url; $('#dlg').showModal(); };
+    }
+    res.appendChild(node);
+
+    const bar = document.createElement('div'); bar.className='bar';
+    const dl = document.createElement('a');
+    dl.href = url; dl.download = (isVid?'video':'image') + '_' + Date.now() + (isVid?'.mp4':'.png');
+    dl.textContent = '⬇ 下载原文件'; dl.target='_blank';
+    bar.innerHTML = '<span class="tag">' + model + '</span><span class="tag">任务 ' + id + '</span>';
+    bar.appendChild(dl);
+    res.appendChild(bar);
+
+    const g = $('#gallery');
+    const gi = document.createElement('img');
+    gi.src = url; gi.title = prompt;
+    gi.onclick = ()=>{ $('#dlgImg').src = url; $('#dlg').showModal(); };
+    g.prepend(gi);
+
+    setProg(100);
+    setTimeout(()=>setProg(0), 900);
+    await refreshPoints();
+  }catch(e){
+    if(!$('#logBox').textContent) log('错误: ' + e.message);
+    $('#empty').style.display='';
+    setProg(0);
+  }finally{
+    busy = false; $('#go').disabled=false; $('#go').textContent='开始生成';
+  }
+}
+
+$('#go').addEventListener('click', run);
+$('#dlg').addEventListener('click', ()=>$('#dlg').close());
+$('#prompt').addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && e.key==='Enter') run();
+});
+
+fillModels();
+refreshPoints();
+</script>
+</body>
+</html>
