@@ -2,12 +2,21 @@
  * HTML 与 JSON 数据走 network-first（保证内容新鲜），其余静态资源走 stale-while-revalidate。
  * 升级：改 CACHE 版本号即可让老缓存整批作废。
  */
-const CACHE = "huimeng-v1";
+const CACHE = "huimeng-v2";
 const CORE = ["./","./index.html","./site.webmanifest","./assets/og.png","./assets/icon-192.png","./assets/icon-512.png","./favicon.ico"];
 const REVALIDATE = new Set(["./index.html","./"]);
 
 const SCOPE = new URL(self.registration.scope).pathname;   // 例如 /huimeng-studio/
 const toKey = (p) => (p.startsWith(SCOPE) ? "./" + p.slice(SCOPE.length) : p);
+
+/* 只把成功的同源响应写进缓存：404 / 500 / opaque 一律不落盘，
+   否则一次抖动就会把错误页永久钉死在客户端。 */
+function put(req, res) {
+  if (!res || res.status !== 200 || res.type === "opaque") return res;
+  const copy = res.clone();
+  caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+  return res;
+}
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
@@ -38,11 +47,7 @@ self.addEventListener("fetch", (e) => {
   if (req.mode === "navigate" || REVALIDATE.has(key)) {
     e.respondWith(
       fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
-          return res;
-        })
+        .then((res) => put(req, res))
         .catch(() => caches.match(req).then((hit) => hit || caches.match("./index.html")))
     );
     return;
@@ -50,15 +55,7 @@ self.addEventListener("fetch", (e) => {
 
   e.respondWith(
     caches.match(req).then((hit) => {
-      const net = fetch(req)
-        .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
-          }
-          return res;
-        })
-        .catch(() => hit);
+      const net = fetch(req).then((res) => put(req, res)).catch(() => hit);
       return hit || net;
     })
   );
