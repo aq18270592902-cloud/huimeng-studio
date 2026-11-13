@@ -1,3 +1,4 @@
+import PWD from './lib_pwd.mjs';
 
 const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36';
 const P='https://platform.huimengi.com';
@@ -8,7 +9,7 @@ async function j(path, body){
     return r.status+' '+(t.length>180?t.slice(0,180):t).replace(/\s+/g,' ');
   }catch(e){return 'ERR '+e.message;}
 }
-const base={phone:'19900000001',password:'Test123456'};
+const base={phone:'19900000001',password:PWD};
 const cands=[
  ['base',{}],
  ['+client',{client:'platform'}],
@@ -19,8 +20,8 @@ const cands=[
  ['+code',{code:'000000'}],
  ['+tenantId',{tenantId:'1'}],
  ['+preferredTenantId',{preferredTenantId:'1'}],
- ['pwd key',{pwd:'Test123456'}],
- ['passwd key',{passwd:'Test123456'}],
+ ['pwd key',{pwd:PWD}],
+ ['passwd key',{passwd:PWD}],
  ['passwordMd5',{passwordMd5:'098f6bcd4621d373cade4e832627b4f6'}],
  ['only phone+empty pwd',{password:''}],
 ];
