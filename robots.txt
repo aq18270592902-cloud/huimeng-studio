@@ -1,0 +1,7 @@
+# 绘梦工坊 Studio
+User-agent: *
+Allow: /
+Disallow: /card-keys.html
+Disallow: /*.json$
+
+Sitemap: https://aq18270592902-cloud.github.io/huimeng-studio/sitemap.xml
