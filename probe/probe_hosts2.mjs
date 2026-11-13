@@ -5,7 +5,7 @@ for(const [name,url] of targets){
   try{
     const r=await fetch(url,{headers:{'User-Agent':UA},signal:AbortSignal.timeout(12000)});
     const t=await r.text();
-    fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\host_'+name.replace(/[.:]/g,'_')+'.html',t,'utf8');
+    fs.writeFileSync('./_data/host_'+name.replace(/[.:]/g,'_')+'.html',t,'utf8');
     console.log('===',name,r.status,t.length,'bytes ===');
     // extract scripts and api hints
     const scripts=[...t.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)].map(m=>m[1]);
