@@ -33,4 +33,4 @@ const v3=await j(B+'/api/v1/auth/verify-email/'+token,{headers:H});
 console.log('verify3(path)',v3.s,JSON.stringify(v3.j||v3.t).slice(0,160));
 const lg=await j(B+'/api/v1/auth/login',{method:'POST',headers:H,body:JSON.stringify({username,password})});
 console.log('login',lg.s,JSON.stringify(lg.j||lg.t).slice(0,200));
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_acct.json',JSON.stringify({addr,mp,username,password,userId:reg.j?.id,token},null,2),'utf8');
+fs.writeFileSync('./_data/apitest_acct.json',JSON.stringify({addr,mp,username,password,userId:reg.j?.id,token},null,2),'utf8');
