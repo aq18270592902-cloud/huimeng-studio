@@ -58,7 +58,7 @@ huimeng-studio/
 ├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图
 ├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat（cfg.ini 本地放 token，不入库）
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
-├── demo/                   实测产物：5 张图 + 4 段视频（约 20MB，仅作效果存档）
+├── demo/                   实测样例：5 张出图（1600px JPEG，约 620KB）+ 4 段视频（约 11MB，仅作效果存档）
 └── probe/                  88 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
 ```
 
