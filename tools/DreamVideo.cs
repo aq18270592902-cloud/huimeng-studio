@@ -507,9 +507,11 @@ class ModelInfo
 
 class Cfg
 {
-    public static string Token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjIxMTk2NDQzMTY2NTUwNzk0MjYsInJuU3RyIjoiRDlMSjdER0h2OWFRT2V5dEZFcUpqN2N6NENhSVlRN2UiLCJpcCI6IjE4My4yMTguMzYuMTczIiwiYWRkcmVzcyI6IuS4reWbvXzmsZ_opb_nnIF85a6c5pil5biCfOenu-WKqCIsImJyb3dzZXIiOiJDaHJvbWUgMTQwIiwib3MiOiJVbmtub3duIiwibG9naW5UaW1lIjoxNzk0MTk3OTA0fQ.93wIBQY-nNKWQo44B0qiXLprBwjRBfKSscycDxdpKRE";
-    public static string TenantId = "2119644316638302210";
-    public static string TenantCode = "THtf7Yx14fgV";
+    // 不内置任何凭据：首次运行请在程序里点「配置」填入自己的 token / tid / tcode，
+    // 保存后会写到 %APPDATA%\DreamVideo\cfg.ini，本文件不需要改动。
+    public static string Token = "";
+    public static string TenantId = "";
+    public static string TenantCode = "";
     public const string EntityChar = "910141757437563478";
     public const string EntityScene = "910141757731164776";
     public const string EntityStory = "910141757995405936";
