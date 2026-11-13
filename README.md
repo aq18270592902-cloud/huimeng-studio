@@ -52,12 +52,22 @@
 <table>
 <tr>
 <td width="60%" align="center">
-<img src="./assets/ui_v12_final.png" alt="文生图界面" width="100%"><br>
+<img src="./assets/ui_v12_final.webp" alt="文生图界面" width="100%"><br>
 <sub><b>文生图</b> · 左栏参数 + 右栏产物，40~80 秒出图</sub>
 </td>
 <td width="40%" align="center">
-<img src="./assets/ui_v13_vid.png" alt="图生视频界面" width="100%"><br>
+<img src="./assets/ui_v13_vid.webp" alt="图生视频界面" width="100%"><br>
 <sub><b>图生视频</b> · 首帧 URL + 时长 / 分辨率</sub>
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+<img src="./assets/ui_v11_deploy.webp" alt="v11 部署版界面" width="100%"><br>
+<sub><b>v11 部署版</b> · 1000×700，早期布局存档</sub>
+</td>
+<td width="50%" align="center">
+<img src="./assets/ui_v13_fix.webp" alt="v13 修正版界面" width="100%"><br>
+<sub><b>v13 修正版</b> · 1000×720，修正后布局</sub>
 </td>
 </tr>
 </table>
@@ -74,7 +84,7 @@ huimeng-studio/
 ├── site.webmanifest        PWA 清单
 ├── sw.js                   离线缓存（可选注册）
 ├── 404.html                自定义错误页
-├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图（README 用其中 2 张）
+├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图（WebP 无损，380KB → 211KB）
 ├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat（cfg.ini 本地放 token，不入库）
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
 ├── demo/                   实测样例：5 张出图（长边 1376~1600px JPEG，合计 622KB）
