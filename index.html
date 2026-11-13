@@ -186,8 +186,8 @@ footer a{display:inline-block;padding:4px 2px;margin:-4px -2px}
 
       <label id="lblMode">模式</label>
       <div class="seg" id="mode" role="group" aria-labelledby="lblMode">
-        <button data-mode="img" class="on">文生图</button>
-        <button data-mode="vid">图生视频</button>
+        <button type="button" data-mode="img" class="on">文生图</button>
+        <button type="button" data-mode="vid">图生视频</button>
       </div>
 
       <label for="model">模型</label>
@@ -196,10 +196,10 @@ footer a{display:inline-block;padding:4px 2px;margin:-4px -2px}
       <div id="imgOpts">
         <label id="lblRatio">画面比例</label>
         <div class="seg" id="ratio" role="group" aria-labelledby="lblRatio">
-          <button data-v="16:9" class="on">16:9</button>
-          <button data-v="1:1">1:1</button>
-          <button data-v="9:16">9:16</button>
-          <button data-v="4:3">4:3</button>
+          <button type="button" data-v="16:9" class="on">16:9</button>
+          <button type="button" data-v="1:1">1:1</button>
+          <button type="button" data-v="9:16">9:16</button>
+          <button type="button" data-v="4:3">4:3</button>
         </div>
       </div>
 
@@ -214,7 +214,7 @@ footer a{display:inline-block;padding:4px 2px;margin:-4px -2px}
         </div>
       </div>
 
-      <button class="go" id="go">开始生成</button>
+      <button type="button" class="go" id="go">开始生成</button>
       <div class="hint" id="costHint">z-image-turbo ≈ 1.7 积分 / 张</div>
       <div class="hint">上游已知行为：任务最终会返回 <code>FAILED</code>，但产物 URL 已生成、积分不扣。看到 FAILED 不要重跑。</div>
     </div>
