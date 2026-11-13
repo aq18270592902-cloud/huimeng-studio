@@ -84,7 +84,7 @@ huimeng-studio/
 ├── site.webmanifest        PWA 清单
 ├── sw.js                   离线缓存（可选注册）
 ├── 404.html                自定义错误页
-├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图（WebP 无损，380KB → 211KB）
+├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图（WebP，380KB → 144KB）
 ├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat（cfg.ini 本地放 token，不入库）
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
 ├── demo/                   实测样例：5 张出图（长边 1376~1600px JPEG，合计 622KB）
