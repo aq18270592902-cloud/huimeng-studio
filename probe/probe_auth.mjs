@@ -1,3 +1,4 @@
+import PWD from './lib_pwd.mjs';
 
 const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36';
 const P='https://platform.huimengi.com';
@@ -9,14 +10,14 @@ async function post(path, body, ct='application/json'){
   }catch(e){return 'ERR '+e.message;}
 }
 console.log('=== register 字段探测 ===');
-for(const b of [{},{phone:'19900000001'},{phone:'19900000001',password:'Test123456'},{phone:'19900000001',password:'Test123456',code:'000000'},{phone:'19900000001',code:'000000'},{phone:'19900000001',smsCode:'000000'},{phone:'19900000001',verifyCode:'000000'},{phone:'19900000001',password:'Test123456',captchaVerification:'x'}]){
+for(const b of [{},{phone:'19900000001'},{phone:'19900000001',password:PWD},{phone:'19900000001',password:PWD,code:'000000'},{phone:'19900000001',code:'000000'},{phone:'19900000001',smsCode:'000000'},{phone:'19900000001',verifyCode:'000000'},{phone:'19900000001',password:PWD,captchaVerification:'x'}]){
   console.log(JSON.stringify(b).padEnd(78), await post('/api/auth/register', b));
 }
 console.log('\n=== password login（账号枚举）===');
-for(const b of [{},{phone:'19900000001',password:'Test123456'},{phone:'13800138000',password:'Test123456'},{phone:'19900000001'}]){
+for(const b of [{},{phone:'19900000001',password:PWD},{phone:'13800138000',password:PWD},{phone:'19900000001'}]){
   console.log('pwd  '+JSON.stringify(b).padEnd(60), await post('/api/auth/sso/doLogin/password', b));
 }
-for(const b of [{},{phone:'19900000001',password:'Test123456'}]){
+for(const b of [{},{phone:'19900000001',password:PWD}]){
   console.log('root '+JSON.stringify(b).padEnd(60), await post('/sso/doLogin/password', b));
 }
 console.log('\n=== doLoginByTicket ===');
