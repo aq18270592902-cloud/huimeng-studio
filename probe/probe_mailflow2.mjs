@@ -1,3 +1,4 @@
+import PWD from './lib_pwd.mjs';
 import fs from 'node:fs';
 const B='https://api-test.huimengi.com';
 const H={'Content-Type':'application/json','Accept':'application/json','Origin':B,'Referer':B+'/','User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36'};
@@ -7,7 +8,7 @@ const addr='hv'+rnd+'@fldubai.com', mp='Mailpass'+rnd+'!9';
 await j('https://api.mail.tm/accounts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:addr,password:mp})});
 const tk=(await j('https://api.mail.tm/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:addr,password:mp})})).j;
 const mt=tk.token;
-const stamp=Date.now(), username='cw'+String(stamp).slice(-8), password='Passw0rd!23';
+const stamp=Date.now(), username='cw'+String(stamp).slice(-8), password=PWD;
 const reg=await j(B+'/api/v1/auth/register',{method:'POST',headers:H,body:JSON.stringify({email:addr,username,password})});
 console.log('reg',reg.s,reg.j?.id);
 let token=null;
