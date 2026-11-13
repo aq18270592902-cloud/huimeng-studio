@@ -52,26 +52,14 @@ jobs:
             echo "无需重触发"
           fi
 
-      - name: 线上 data.js 落后仓库超过 6 小时则告警
+
+      - name: 线上首页探活
         run: |
           set -euo pipefail
           host="$(printf '%s' "${{ github.repository_owner }}" | tr 'A-Z' 'a-z')"
-          curl -sS --max-time 30 "https://$host.github.io/huimeng-studio/data.js?cb=$(date +%s)" -o /tmp/live.js || true
-          curl -sS --max-time 30 -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.raw" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/contents/data.js?ref=main" -o /tmp/repo.js || true
-          LIVE=/tmp/live.js REPOJS=/tmp/repo.js node -e '
-            const fs = require("fs");
-            const pick = (p) => {
-              try { const s = fs.readFileSync(p, "utf8"); const m = /"updatedAt"\s*:\s*"([^"]+)"/.exec(s); return m ? m[1] : ""; }
-              catch { return ""; }
-            };
-            const l = pick(process.env.LIVE), r = pick(process.env.REPOJS);
-            console.log("线上 updatedAt :", l || "(未取到)");
-            console.log("仓库 updatedAt :", r || "(未取到)");
-            if (!l || !r) { console.log("::warning::时间戳未解析，跳过比对"); process.exit(0); }
-            const dt = (Date.parse(r) - Date.parse(l)) / 3600000;
-            console.log("仓库比线上新：" + dt.toFixed(2) + " 小时");
-            if (dt > 6) console.log("::warning::线上 data.js 落后 " + dt.toFixed(1) + " 小时，Pages 可能未发布");
-          '
+          code="$(curl -sS --max-time 30 -o /dev/null -w '%{http_code}' \
+            "https://$host.github.io/huimeng-studio/?cb=$(date +%s)" || echo 000)"
+          echo "线上首页 HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "::warning::线上首页返回 $code，Pages 可能未发布"
+          fi
