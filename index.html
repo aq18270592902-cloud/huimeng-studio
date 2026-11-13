@@ -124,6 +124,9 @@
 <meta name="twitter:title" content="绘梦工坊 Studio · 在线出图 / 图生视频">
 <meta name="twitter:description" content="绘梦工坊（huimengi / dimnx）逆向工程与在线生成工具：文生图、图生视频，纯浏览器直连上游 API。">
 <meta name="twitter:image" content="https://aq18270592902-cloud.github.io/huimeng-studio/assets/og.png">
+<!-- ── 预连接上游 API ──────────────────────────────────────── -->
+<link rel="preconnect" href="https://api.dimnx.com" crossorigin>
+<link rel="dns-prefetch" href="https://api.dimnx.com">
 <!-- ── 图标 / PWA ───────────────────────────────────────────── -->
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./assets/icon-32.png">
@@ -240,7 +243,7 @@
   </footer>
 </div>
 
-<dialog id="dlg"><img id="dlgImg" alt="生成结果预览"></dialog>
+<dialog id="dlg"><img id="dlgImg" alt="生成结果预览" decoding="async" width="1024" height="1024"></dialog>
 <dialog id="tokDlg" class="tokdlg" aria-labelledby="tokTitle">
   <h3 id="tokTitle">配置访问 Token</h3>
   <p>页面不再内置任何人的 token。填自己的即可：登录上游后从浏览器开发者工具里复制 <code>authorization</code> 的值（去掉 <code>Bearer </code> 前缀）。只存在本机 localStorage，不会上传。</p>
