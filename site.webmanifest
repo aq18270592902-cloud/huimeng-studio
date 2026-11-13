@@ -2,7 +2,7 @@
   "name": "绘梦工坊 Studio",
   "short_name": "绘梦工坊 Studio",
   "description": "绘梦工坊（huimengi / dimnx）逆向工程与在线生成工具：文生图、图生视频，纯浏览器直连上游 API。",
-  "id": "/",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
