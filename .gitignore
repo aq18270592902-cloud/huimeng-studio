@@ -1,0 +1,50 @@
+# 依赖
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 本地配置与密钥（绝不入库）
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+cfg.ini
+secrets.json
+
+# 日志与临时文件
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# 构建与测试产物
+dist/
+build/
+coverage/
+
+# 出图产物
+out.png
+out_*.png
+*.mp4
+!demo/*.mp4
+
+# 探测脚本的运行结果
+probe/out/
+probe/*.png
+!probe/*.json
+
+# 桌面版配置（含 token）
+tools/cfg.ini
+tools/*.ini
