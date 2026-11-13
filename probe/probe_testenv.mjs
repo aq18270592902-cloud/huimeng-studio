@@ -1,3 +1,4 @@
+import PWD from './lib_pwd.mjs';
 
 const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/140.0.0.0 Safari/537.36';
 async function call(base, path, body, method='POST'){
@@ -10,6 +11,6 @@ async function call(base, path, body, method='POST'){
 for(const h of ['https://platform.yunxiacn.com','https://app-test.yunxiacn.com']){
   console.log('\n########', h);
   console.log(' session         ', await call(h,'/api/auth/session',null,'GET'));
-  console.log(' register 123456 ', await call(h,'/api/auth/register',{phone:'19900000002',code:'123456',password:'Test123456'}));
+  console.log(' register 123456 ', await call(h,'/api/auth/register',{phone:'19900000002',code:'123456',password:PWD}));
   console.log(' smsLogin 123456 ', await call(h,'/api/auth/sso/doLogin/sms',{phone:'19900000002',code:'123456'}));
 }
