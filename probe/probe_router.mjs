@@ -3,7 +3,7 @@ const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/13
 const a='router-C9SZTJYi.js';
 const r=await fetch('https://api-test.huimengi.com/assets/'+a,{headers:{'User-Agent':UA}});
 const t=await r.text();
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\asset_router.js',t,'utf8');
+fs.writeFileSync('./_data/asset_router.js',t,'utf8');
 console.log('len',t.length);
 const re=/path:\s*[\"'\x60]([^\"'\x60]+)[\"'\x60]/g;
 console.log('ROUTES:',[...t.matchAll(re)].map(m=>m[1]).join(' '));
