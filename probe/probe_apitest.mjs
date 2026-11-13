@@ -3,7 +3,7 @@ const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/13
 const u='https://api-test.huimengi.com/assets/index-h1JdR1OC.js';
 const r=await fetch(u,{headers:{'User-Agent':UA,'Referer':'https://api-test.huimengi.com/'},signal:AbortSignal.timeout(20000)});
 const t=await r.text();
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_index.js',t,'utf8');
+fs.writeFileSync('./_data/apitest_index.js',t,'utf8');
 console.log('len',t.length);
 const urls=[...new Set([...t.matchAll(/["'\x60](https?:\/\/[a-zA-Z0-9._:\/-]+)["'\x60]/g)].map(m=>m[1]))];
 console.log('URLS:',urls.join('\n'));
