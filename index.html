@@ -53,6 +53,21 @@
     background:linear-gradient(135deg,var(--acc),#4f8cff);box-shadow:0 10px 30px rgba(124,92,255,.34);transition:.18s}
   .go:hover{transform:translateY(-1px);box-shadow:0 14px 36px rgba(124,92,255,.46)}
   .go:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+  
+  button.pill{font-family:inherit;cursor:pointer}
+  button.pill.ok{border-color:rgba(52,211,153,.55);color:#6ee7b7}
+  button.pill.warn{border-color:rgba(251,191,36,.55);color:#fcd34d}
+  dialog.tokdlg{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));
+    color:var(--txt);border-radius:16px;padding:22px;max-width:540px;width:calc(100vw - 40px)}
+  dialog.tokdlg::backdrop{background:rgba(0,0,0,.62)}
+  dialog.tokdlg h3{margin:0 0 7px;font-size:16px;font-weight:600}
+  dialog.tokdlg p{margin:0 0 15px;color:var(--dim);font-size:12.5px;line-height:1.65}
+  dialog.tokdlg textarea{min-height:78px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.5}
+  .tokbtns{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:16px}
+  .tokbtns .ghost{background:#0a0c14;border:1px solid var(--line);color:var(--dim);border-radius:10px;
+    padding:11px 16px;font-size:13px;cursor:pointer;font-family:inherit}
+  .tokbtns .ghost:hover{border-color:#39415c;color:var(--txt)}
+
   .hint{font-size:11.5px;color:var(--dim);margin-top:10px;line-height:1.65}
   .stage{min-height:420px;display:grid;place-items:center;position:relative;overflow:hidden}
   .empty{text-align:center;color:var(--dim);font-size:13px;line-height:2}
@@ -149,6 +164,7 @@
     <a class="pill" style="text-decoration:none;border-color:rgba(124,92,255,.5);color:#c4b5fd"
        href="https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/DreamVideo.exe">⬇ 桌面版 exe</a>
     <a class="pill" style="text-decoration:none" href="https://github.com/aq18270592902-cloud/huimeng-studio">GitHub</a>
+    <button class="pill warn" id="tokenBtn" type="button" aria-haspopup="dialog">Token 未配置</button>
     <div class="pill">积分 <b id="pts">—</b></div>
     <div class="pill" id="engine">api.dimnx.com</div>
   </header>
@@ -218,20 +234,35 @@
 
   <footer>
     <div>上游：<code>api.dimnx.com</code> · 主站 <code>huimengi.com</code> · 计费 <code>/api/billing/points</code></div>
-    <div>页面内置的是仓库所有者的测试账号 token（30 积分），用完即止；换成你自己的 token 见 README。</div>
+    <div>页面不内置任何 token：点右上角「Token 未配置」填入你自己的，只存本机 localStorage，源码里查不到。</div>
     <div>仓库：<a href="https://github.com/aq18270592902-cloud/huimeng-studio">huimeng-studio</a> · 桌面版：<a href="https://github.com/aq18270592902-cloud/huimeng-studio/releases">Releases</a>（DreamVideo.exe / Studio2.exe）</div>
     <div>本项目为逆向研究产物，代码与接口资料按现状提供。</div>
   </footer>
 </div>
 
 <dialog id="dlg"><img id="dlgImg" alt="生成结果预览"></dialog>
+<dialog id="tokDlg" class="tokdlg" aria-labelledby="tokTitle">
+  <h3 id="tokTitle">配置访问 Token</h3>
+  <p>页面不再内置任何人的 token。填自己的即可：登录上游后从浏览器开发者工具里复制 <code>authorization</code> 的值（去掉 <code>Bearer </code> 前缀）。只存在本机 localStorage，不会上传。</p>
+  <label for="tokInput">Token</label>
+  <textarea id="tokInput" spellcheck="false" autocomplete="off" placeholder="eyJ0eXAiOiJKV1Qi..."></textarea>
+  <div class="row">
+    <div><label for="tokTid">x-tenant-id</label><input id="tokTid" spellcheck="false" autocomplete="off"></div>
+    <div><label for="tokTcode">x-tenant-code</label><input id="tokTcode" spellcheck="false" autocomplete="off"></div>
+  </div>
+  <div class="tokbtns">
+    <button class="go" id="tokSave" type="button">保存到本机</button>
+    <button class="ghost" id="tokClear" type="button">清除</button>
+  </div>
+</dialog>
 
 <script>
 const BASE = 'https://api.dimnx.com/api';
-const TENANT_ID = '2119644316638302210';
-const TENANT_CODE = 'THtf7Yx14fgV';
-// 所有者测试账号业务 token（无 exp 字段，长期有效；积分 30）
-const DEFAULT_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjIxMTk2NDQzMTY2NTUwNzk0MjYsInJuU3RyIjoiRDlMSjdER0h2OWFRT2V5dEZFcUpqN2N6NENhSVlRN2UiLCJpcCI6IjE4My4yMTguMzYuMTczIiwiYWRkcmVzcyI6IuS4reWbvXzmsZ_opb_nnIF85a6c5pil5biCfOenu-WKqCIsImJyb3dzZXIiOiJDaHJvbWUgMTQwIiwib3MiOiJVbmtub3duIiwibG9naW5UaW1lIjoxNzk0MTk3OTA0fQ.93wIBQY-nNKWQo44B0qiXLprBwjRBfKSscycDxdpKRE';
+/* 凭证一律不落仓库：全部从本机 localStorage 读取，页面源码里没有任何 token。
+   token 形如 JWT 字符串（不带 "Bearer " 前缀）。 */
+const LS = { tok:'hm_token', tid:'hm_tenant_id', tcode:'hm_tenant_code' };
+const TENANT_ID = localStorage.getItem(LS.tid) || '';
+const TENANT_CODE = localStorage.getItem(LS.tcode) || '';
 
 const MODELS = {
   img: [
@@ -249,14 +280,51 @@ const ENTITY = { img:'910141757437563478', vid:'910141757995405936' };
 
 const $ = s => document.querySelector(s);
 let mode = 'img', ratio = '16:9', busy = false;
-const TOKEN = localStorage.getItem('hm_token') || DEFAULT_TOKEN;
+const getToken = () => (localStorage.getItem(LS.tok) || '').trim();
+const hasToken = () => getToken().length > 20;
 
-const H = () => ({
-  'authorization': 'Bearer ' + TOKEN,
-  'x-tenant-id': TENANT_ID,
-  'x-tenant-code': TENANT_CODE,
-  'content-type': 'application/json'
-});
+const H = () => {
+  const h = { 'content-type': 'application/json' };
+  const t = getToken();
+  if (t) h.authorization = 'Bearer ' + t;
+  const tid = localStorage.getItem(LS.tid); if (tid) h['x-tenant-id'] = tid;
+  const tc  = localStorage.getItem(LS.tcode); if (tc) h['x-tenant-code'] = tc;
+  return h;
+};
+
+/* ---- Token 配置 UI ---- */
+const tokBtn = $('#tokenBtn'), tokDlg = $('#tokDlg');
+function syncTokUI(){
+  if (!tokBtn) return;
+  if (hasToken()){
+    tokBtn.textContent = 'Token 已配置';
+    tokBtn.className = 'pill ok';
+  } else {
+    tokBtn.textContent = 'Token 未配置';
+    tokBtn.className = 'pill warn';
+  }
+}
+function openTok(){
+  $('#tokInput').value = getToken();
+  $('#tokTid').value = localStorage.getItem(LS.tid) || '';
+  $('#tokTcode').value = localStorage.getItem(LS.tcode) || '';
+  tokDlg.showModal();
+}
+if (tokBtn) tokBtn.addEventListener('click', openTok);
+if (tokDlg){
+  $('#tokSave').addEventListener('click', () => {
+    const t = $('#tokInput').value.trim().replace(/^Bearer\s+/i, '');
+    if (t) localStorage.setItem(LS.tok, t); else localStorage.removeItem(LS.tok);
+    const tid = $('#tokTid').value.trim(), tc = $('#tokTcode').value.trim();
+    if (tid) localStorage.setItem(LS.tid, tid); else localStorage.removeItem(LS.tid);
+    if (tc)  localStorage.setItem(LS.tcode, tc); else localStorage.removeItem(LS.tcode);
+    syncTokUI(); tokDlg.close(); refreshPoints();
+  });
+  $('#tokClear').addEventListener('click', () => {
+    Object.values(LS).forEach(k => localStorage.removeItem(k));
+    syncTokUI(); tokDlg.close(); $('#pts').textContent = '—';
+  });
+}
 
 function log(msg){
   const box = $('#logBox'); box.style.display='block';
@@ -274,6 +342,7 @@ async function api(path, opt={}){
   try { return JSON.parse(t); } catch { return { raw:t.slice(0,300), _status:r.status }; }
 }
 async function refreshPoints(){
+  if (!hasToken()){ $('#pts').textContent = '—'; return; }
   try{
     const d = await api('/billing/points');
     const p = d?.data?.points;
@@ -328,6 +397,7 @@ async function run(){
   if(busy) return;
   const prompt = $('#prompt').value.trim();
   if(!prompt){ alert('先写画面描述'); return; }
+  if(!hasToken()){ openTok(); log('请先点右上角「Token 未配置」填入自己的 token'); return; }
   const model = $('#model').value;
   const isVid = mode==='vid';
 
@@ -412,6 +482,7 @@ $('#prompt').addEventListener('keydown', e=>{
 });
 
 fillModels();
+syncTokUI();
 refreshPoints();
 </script>
 
