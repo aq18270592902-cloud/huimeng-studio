@@ -4,7 +4,7 @@
 
 # 绘梦工坊 Studio · 在线出图 / 图生视频
 
-浏览器直连上游 API 的文生图 + 图生视频工具，附桌面客户端、完整逆向报告、59 个模型目录和 88 个探测脚本。
+浏览器直连上游 API 的文生图 + 图生视频工具，附桌面客户端、完整逆向报告、59 个模型目录和 89 个探测脚本。
 
 [![Pages](https://img.shields.io/badge/demo-online-7c5cff?style=flat-square&logo=githubpages&logoColor=white)](https://aq18270592902-cloud.github.io/huimeng-studio/)
 [![Release](https://img.shields.io/github/v/release/aq18270592902-cloud/huimeng-studio?style=flat-square&color=f59e0b&label=release)](https://github.com/aq18270592902-cloud/huimeng-studio/releases)
@@ -89,7 +89,8 @@ huimeng-studio/
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
 ├── demo/                   实测样例：5 张出图（长边 1376~1600px JPEG，合计 622KB）
 │                          4 段视频（共 11MB）已移到 Release 附件，见下方「视频样例」
-└── probe/                  88 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
+└── probe/                  89 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
+                            口令统一走 PROBE_PWD 环境变量，仓库里不留明文
 ```
 
 ### 视频样例（Release 附件）
@@ -238,7 +239,8 @@ python -m http.server 8000
 
 - [`docs/report.md`](./docs/report.md) —— 完整逆向报告：鉴权、签名、OSS 上传、计费、风控
 - [`docs/prod_models.json`](./docs/prod_models.json) —— 59 个模型的参数 schema 与计价表
-- [`probe/`](https://github.com/aq18270592902-cloud/huimeng-studio/tree/main/probe) —— 88 个实测脚本，从匿名面探测到验证码绕过
+- [`probe/`](https://github.com/aq18270592902-cloud/huimeng-studio/tree/main/probe) —— 89 个实测脚本，从匿名面探测到验证码绕过
+  - 跑之前先 `export PROBE_PWD='测试口令'`，脚本从 `probe/lib_pwd.mjs` 读；不设就 exit 2，不会用任何内置口令
 
 ---
 
