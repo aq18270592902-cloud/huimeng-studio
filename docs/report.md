@@ -1058,7 +1058,7 @@ phone 19900000233  code 340143
 -> 200 {"code":"0","msg":"ok","data":{"authenticated":true,
         "identityUserId":"2119644316596359169","nickname":"造梦师04023",
         "tenants":[{"tenantId":"2119644316638302210","tenantName":"wu740189",
-                    "tenantCode":"THtf7Yx14fgV","roleCode":"owner","status":1}]}}
+                    "tenantCode":"THtf****fgV","roleCode":"owner","status":1}]}}
 Set-Cookie: Hm-Token=1da39b0f-...; Max-Age=604800; HttpOnly; SameSite=None
 ```
 
@@ -1107,7 +1107,7 @@ curl -X POST https://api.dimnx.com/sso/doLoginByTicket \
 {"code":200,"msg":"ok","data":{
   "token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
   "tenantId":"2119644316638302210",
-  "tenantCode":"THtf7Yx14fgV",
+  "tenantCode":"THtf****fgV",
   "userId":"2119644316655079426"}}
 ```
 
@@ -1160,12 +1160,12 @@ node poc_free_account.mjs --phone 19900000123 --max 500000 --conc 150
 实测凭据（本报告写作时有效）：
 
 ```
-phone      : 19900000233 / Passw0rd!23
+phone      : 199****0233 / Pass****!23   （已打码，实测值不再保留）
 tenantId   : 2119644316638302210
-tenantCode : THtf7Yx14fgV
+tenantCode : THtf****fgV
 userId     : 2119644316655079426
-Hm-Token   : 1da39b0f-7b87-48d6-97d4-0c981e66bcc8
-site token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...93wIBQY-nNKWQo44B0qiXLprBwjRBfKSscycDxdpKRE
+Hm-Token   : 1da3****bcc8
+site token : eyJ0eXAiOiJKV1Qi...（已移除完整值）
 ```
 
 ## 15.6 定级与修复
