@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: 站点自检
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 校验 JSON / 资源引用 / head 标签
+        run: node scripts/validate.js
+
+      - name: 语法检查（Node 脚本）
+        run: |
+          for f in scripts/*.js *.js; do
+            [ -e "$f" ] || continue
+            node --check "$f"
+          done
