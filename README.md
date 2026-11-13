@@ -26,7 +26,9 @@
 
 打开 <https://aq18270592902-cloud.github.io/huimeng-studio/> → 写画面描述 → 选模型 → 点「开始生成」→ 等 40~80 秒 → 产物出现在右侧，可下载原文件。
 
-不用装东西、不用注册、不用后端。整个页面就一个 `index.html`，浏览器直接向上游发请求。
+不用装东西、不用后端。整个页面就一个 `index.html`，浏览器直接向上游发请求。
+
+第一次打开先点右上角「Token 未配置」填入自己的 token（只存本机），之后一直有效。
 
 ---
 
@@ -125,13 +127,13 @@ output_data.result_response.result.video_url       // 视频
 
 ---
 
-## 换成自己的 token
+## 配置自己的 token
 
-网页版内置的是仓库所有者的测试账号 token（30 积分，用完即止）。换成自己的：
+网页版**不内置任何 token**。打开页面后点右上角「Token 未配置」，粘贴自己的即可（只存本机 localStorage，源码里查不到）。
 
-1. 登录 <https://huimengi.com> → F12 → Application → Local Storage，找业务 token
-2. 网页版换法：控制台执行 `localStorage.setItem('hm_token', '你的token')` 后刷新（会覆盖内置值，优先级更高）
-3. 命令行换法（`tools/gen.mjs` **不再内置任何凭据**，三种给法任选）：
+拿到 token：登录 <https://huimengi.com> → F12 → Application → Local Storage，取业务 token（JWT 字符串）。同一个弹窗里还要填 `x-tenant-id` 与 `x-tenant-code`，见 `docs/endpoints.txt`。
+
+命令行三种给法（`tools/gen.mjs` 同样不内置任何凭据）：
 
 ```bash
 # A. 参数
@@ -149,6 +151,8 @@ set HM_TENANT_CODE=<tenantCode>
 ```
 
 缺任一凭据时脚本直接 `exit 3` 并打印上面三种给法，不会带着空 token 去请求。
+
+> 早前版本曾在 `index.html` 里硬编码一个长期有效的测试 token，已移除。仓库历史里仍能翻到旧 commit —— 那个 token 若还有效，属于上游未回收，与本仓库现状无关。
 
 ---
 
@@ -185,6 +189,7 @@ python -m http.server 8000
 | 图生视频报 `missing first image` | 首帧 URL 为空 | 先上传一张图拿到直链，再填进去 |
 | 控制台报 CORS | 用了 `file://` 打开 | 起本地 HTTP 服务 |
 | 生成按钮一直灰 | 上一次任务还在跑（`busy` 锁） | 等它结束，或刷新页面 |
+| 点生成弹「Token 未配置」 | 本机没有存 token | 点右上角填入；换浏览器/无痕模式需重填 |
 
 ---
 
