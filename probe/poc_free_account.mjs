@@ -8,7 +8,7 @@ const rand = n => Array.from({ length: n }, () => '0123456789abcdefghijklmnopqrs
 const phone = arg('phone') || ('1990000' + String(Math.floor(Math.random() * 9000) + 1000));
 const MAX = Number(arg('max', 400000));
 const CONC = Number(arg('conc', 200));
-const PWD = 'Passw0rd!23';
+import PWD from './lib_pwd.mjs';
 const TNAME = 't' + rand(9);
 
 const post = async (url, body, headers = {}) => {
