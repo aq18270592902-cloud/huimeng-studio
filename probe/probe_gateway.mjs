@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 const B='https://api-test.huimengi.com';
 const KEY='hm-NZTl3xP9UakL74TN4-SwpuSTsy9N5RbdBoh4rhmM4cU';
-const tok=fs.readFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_token.txt','utf8').trim();
+const tok=fs.readFileSync('./_data/apitest_token.txt','utf8').trim();
 const j=async(u,o)=>{const r=await fetch(u,{...o,signal:AbortSignal.timeout(60000)});const t=await r.text();try{return {s:r.status,j:JSON.parse(t)}}catch{return {s:r.status,t:t.slice(0,400)}}};
 const KH={'Content-Type':'application/json','Authorization':'Bearer '+KEY,'User-Agent':'hm-poc/1.0'};
 const m=await j(B+'/v1/models',{headers:KH});
