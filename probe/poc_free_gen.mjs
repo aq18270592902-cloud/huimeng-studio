@@ -15,7 +15,7 @@ const PROMPT = arg('prompt', '中国古代红衣女子，红盖头，中式婚�
 const OUT = arg('out', 'free_gen.png');
 const ENTITY_ID = arg('entity', '910141757437563478');
 const ENTITY_TYPE = arg('entitytype', 'character');
-const PWD = 'Passw0rd!23';
+import PWD from './lib_pwd.mjs';
 const TNAME = 't' + rand(9);
 
 const post = async (url, body, headers = {}) => {
