@@ -4,6 +4,8 @@
 
 > **在线直接用**：<https://aq18270592902-cloud.github.io/huimeng-studio/>
 > 打开就能出图，不用装东西、不用注册。
+>
+> **桌面版下载**：[DreamVideo.exe](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/DreamVideo.exe) · [Studio2.exe](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/Studio2.exe)
 
 ---
 
