@@ -1,8 +1,9 @@
+import PWD from './lib_pwd.mjs';
 import fs from 'node:fs';
 const B='https://api-test.huimengi.com';
 const H={'Content-Type':'application/json','Accept':'application/json','Origin':B,'Referer':B+'/','User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36'};
 const stamp=Date.now();
-const email='probe'+stamp+'@example.com', username='pr'+String(stamp).slice(-8), password='Passw0rd!23';
+const email='probe'+stamp+'@example.com', username='pr'+String(stamp).slice(-8), password=PWD;
 async function call(m,p,body,hdr){
   try{
     const r=await fetch(B+p,{method:m,headers:{...H,...(hdr||{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(12000)});
