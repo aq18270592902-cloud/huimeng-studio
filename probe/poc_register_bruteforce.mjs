@@ -20,7 +20,7 @@ const args = process.argv.slice(2);
 const getv = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const max = parseInt(getv('--max', '20'), 10);
 const only = getv('--code', null);
-const pwd = 'Passw0rd!23';
+import pwd from './lib_pwd.mjs';
 
 async function sendCode(scene) {
   const cv = await captchaVerification(() => {});
