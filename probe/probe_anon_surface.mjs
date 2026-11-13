@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36';
 const BASE='https://api.dimnx.com/api';
-const list=fs.readFileSync('C:/Users/aq/Desktop/rrea-projects/huimeng/endpoints.txt','utf8').split('\n').filter(Boolean)
+const list=fs.readFileSync('../docs/endpoints.txt','utf8').split('\n').filter(Boolean)
   .filter(p=>!/\.(png|svg)$/.test(p) && !p.startsWith('/api/auth'));
 const out=[];
 for(const p of list){
@@ -16,4 +16,4 @@ for(const p of list){
 const groups={};
 for(const o of out){ const k=o.status+' '+(o.code??'-')+' '+o.msg.slice(0,60); (groups[k]??=[]).push(o.p); }
 for(const [k,v] of Object.entries(groups)) console.log('\n['+k+']  x'+v.length+'\n  '+v.join('  '));
-fs.writeFileSync('C:/Users/aq/Desktop/rrea-projects/huimeng/probe_anon_surface.json', JSON.stringify(out,null,1));
+fs.writeFileSync('./_data/probe_anon_surface.json', JSON.stringify(out,null,1));
