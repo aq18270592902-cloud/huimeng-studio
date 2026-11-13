@@ -1,47 +1,115 @@
+<div align="center">
+
+<img src="./assets/og.png" alt="绘梦工坊 Studio" width="720">
+
 # 绘梦工坊 Studio · 在线出图 / 图生视频
 
-浏览器直连上游 API 的文生图 + 图生视频工具，附桌面版 exe、完整逆向报告、40+ 模型目录和 88 个探测脚本。
+浏览器直连上游 API 的文生图 + 图生视频工具，附桌面客户端、完整逆向报告、40+ 模型目录和 88 个探测脚本。
 
-> **在线直接用**：<https://aq18270592902-cloud.github.io/huimeng-studio/>
-> 打开就能出图，不用装东西、不用注册。
->
-> **桌面版下载**：[DreamVideo.exe](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/DreamVideo.exe) · [Studio2.exe](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/Studio2.exe)
+[![Pages](https://img.shields.io/badge/demo-online-7c5cff?style=flat-square&logo=githubpages&logoColor=white)](https://aq18270592902-cloud.github.io/huimeng-studio/)
+[![Release](https://img.shields.io/github/v/release/aq18270592902-cloud/huimeng-studio?style=flat-square&color=f59e0b&label=release)](https://github.com/aq18270592902-cloud/huimeng-studio/releases)
+[![License](https://img.shields.io/github/license/aq18270592902-cloud/huimeng-studio?style=flat-square&color=34d399)](./LICENSE)
+[![Zero deps](https://img.shields.io/badge/dependencies-0-22d3ee?style=flat-square)](./index.html)
+[![Stars](https://img.shields.io/github/stars/aq18270592902-cloud/huimeng-studio?style=flat-square&color=7c5cff)](https://github.com/aq18270592902-cloud/huimeng-studio/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/aq18270592902-cloud/huimeng-studio?style=flat-square&color=9aa3b8)](https://github.com/aq18270592902-cloud/huimeng-studio/commits/main)
 
----
+**[在线直接用](https://aq18270592902-cloud.github.io/huimeng-studio/)** ·
+**[桌面版下载](https://github.com/aq18270592902-cloud/huimeng-studio/releases)** ·
+**[逆向报告](./docs/report.md)** ·
+**[模型表](./docs/prod_models.json)**
 
-## 这是什么
-
-[绘梦工坊](https://huimengi.com)（后端域名 `api.dimnx.com`）是一个 AI 绘画 / 视频生成站。本仓库是它的逆向工程产物 + 一个不依赖任何后端的网页版客户端。
-
-| 部分 | 说明 |
-|---|---|
-| `index.html` | 网页版 Studio。纯静态，浏览器直接请求上游，可直接托管在 GitHub Pages |
-| `tools/DreamVideo.exe` | C# WinForms 桌面客户端，4 个文生图模型 + 图生视频 |
-| `tools/gen.mjs` | 命令行文生图，`node gen.mjs "一只橘猫"` |
-| `tools/gen_video.mjs` | 命令行图生视频 |
-| `docs/report.md` | 完整逆向报告（鉴权、签名、OSS、计费、风控） |
-| `docs/prod_models.json` | 40+ 模型的参数 schema 与计价表 |
-| `probe/` | 88 个实测脚本，覆盖登录、SSO、验证码、上传、限流 |
-| `demo/` | 实测产物：图片 + 视频 |
+</div>
 
 ---
 
-## 网页版用法
+## 三十秒上手
 
-1. 打开 <https://aq18270592902-cloud.github.io/huimeng-studio/>
-2. 写画面描述 → 选模型 → 点「开始生成」
-3. 等 40~80 秒，产物出现在右侧，可下载原文件
+打开 <https://aq18270592902-cloud.github.io/huimeng-studio/> → 写画面描述 → 选模型 → 点「开始生成」→ 等 40~80 秒 → 产物出现在右侧，可下载原文件。
 
-**文生图**（4 个模型）
+不用装东西、不用注册、不用后端。整个页面就一个 `index.html`，浏览器直接向上游发请求。
 
-| 模型 | 内部 ID | 特点 | 价格 |
-|---|---|---|---|
-| Z-Image Turbo | `z-image-turbo` | 最快，日常够用 | ≈1.7 积分/张 |
-| Seedream 4.5 | `seedream-4-5` | 写实细腻，人像强 | ≈4.25 积分/张 |
-| NanoBanana 2.1 | `nanobana-2-1` | 创意风格化 | ≈4 积分/张 |
-| Midjourney v8.2 | `mj-8-2` | 艺术氛围 | ≈5 积分/张 |
+---
 
-**图生视频**（2 个模型）：`seedance-2-0-mini` / `seedance-2-0-fast`，支持 4~15 秒、480p/720p，需要先给一张首帧图片 URL。
+## 能做什么
+
+| 能力 | 模型 | 说明 |
+|---|---|---|
+| 文生图 | `z-image-turbo` | 最快，日常够用，≈1.7 积分/张 |
+| 文生图 | `seedream-4-5` | 写实细腻，人像强，≈4.25 积分/张 |
+| 文生图 | `nanobana-2-1` | 创意风格化，≈4 积分/张 |
+| 文生图 | `mj-8-2` | Midjourney 风格，艺术氛围，≈5 积分/张 |
+| 图生视频 | `seedance-2-0-mini` | 4~15 秒，480p/720p，最省 |
+| 图生视频 | `seedance-2-0-fast` | 同参数，出片更快 |
+
+图生视频需要先给一张首帧图片 URL。
+
+---
+
+## 仓库结构
+
+```
+huimeng-studio/
+├── index.html              网页版 Studio（单文件，GitHub Pages 入口）
+├── site.webmanifest        PWA 清单
+├── sw.js                   离线缓存（可选注册）
+├── 404.html                自定义错误页
+├── assets/                 og.png 分享图 + 4 尺寸图标 + UI 截图
+├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat
+├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
+├── demo/                   实测产物：3 张图 + 3 段视频
+└── probe/                  88 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
+```
+
+---
+
+## 网页版怎么接上游
+
+三件套请求头：
+
+```
+authorization:  Bearer <token>
+x-tenant-id:    <TENANT_ID>
+x-tenant-code:  <TENANT_CODE>
+```
+
+文生图：
+
+```http
+POST https://api.dimnx.com/api/aigc/text-to-image/{model}
+Content-Type: application/json
+
+{
+  "taskType": "TEXT_TO_IMAGE_Z_IMAGE_TURBO",
+  "entityType": "character",
+  "entityId": "910141757437563478",
+  "count": 1,
+  "config": { "prompt": "一只橘猫", "aspectRatio": "16:9" }
+}
+```
+
+图生视频：
+
+```http
+POST https://api.dimnx.com/api/aigc/image-to-video/{model}
+
+{
+  "taskType": "IMAGE_TO_VIDEO_SEEDANCE_2_0_MINI",
+  "entityType": "storyboard",
+  "entityId": "910141757995405936",
+  "count": 1,
+  "config": { "prompt": "...", "duration": 10, "resolution": "720p", "firstImage": "https://..." }
+}
+```
+
+提交返回 `{"data":["<taskId>"]}`，然后轮询 `GET /api/tasks/{id}`：
+
+```
+output_data.result_response.result.image_url       // 单图
+output_data.result_response.result.image_urls[0]   // 多图
+output_data.result_response.result.video_url       // 视频
+```
+
+**CORS**：上游对任意 Origin 回显 `Access-Control-Allow-Origin`，预检 200 —— 所以纯静态页能直连，不需要自建代理。这是整个项目能做成单文件的前提。
 
 ---
 
@@ -57,75 +125,15 @@
 
 ---
 
-## 自己跑（用自己的 token）
+## 换成自己的 token
 
 页面内置的是仓库所有者的测试账号 token（30 积分，用完即止）。换成自己的：
 
-1. 登录 <https://huimengi.com>，F12 → Application → Local Storage，找业务 token
-2. 页面里三种换法任选：
+1. 登录 <https://huimengi.com> → F12 → Application → Local Storage，找业务 token
+2. 三种换法任选：
    - 控制台执行 `localStorage.setItem('hm_token', '你的token')` 后刷新
    - 直接改 `index.html` 里的 `DEFAULT_TOKEN`
    - 改 `tools/gen.mjs` 里的 `const TK`
-
-还需要两个租户参数（在页面顶部常量里）：
-
-```js
-const TENANT_ID   = '2119644316638302210';
-const TENANT_CODE = 'THtf7Yx14fgV';
-```
-
----
-
-## 接口速查
-
-```
-POST https://api.dimnx.com/api/aigc/text-to-image/{model}
-POST https://api.dimnx.com/api/aigc/image-to-video/{model}
-GET  https://api.dimnx.com/api/tasks/{taskId}
-GET  https://api.dimnx.com/api/billing/points
-```
-
-请求头三件套：
-
-```
-authorization:  Bearer <token>
-x-tenant-id:    <TENANT_ID>
-x-tenant-code:  <TENANT_CODE>
-```
-
-文生图 body：
-
-```json
-{
-  "taskType": "TEXT_TO_IMAGE_Z_IMAGE_TURBO",
-  "entityType": "character",
-  "entityId": "910141757437563478",
-  "count": 1,
-  "config": { "prompt": "一只橘猫", "aspectRatio": "16:9" }
-}
-```
-
-图生视频 body：
-
-```json
-{
-  "taskType": "IMAGE_TO_VIDEO_SEEDANCE_2_0_MINI",
-  "entityType": "storyboard",
-  "entityId": "910141757995405936",
-  "count": 1,
-  "config": { "prompt": "...", "duration": 10, "resolution": "720p", "firstImage": "https://..." }
-}
-```
-
-提交返回 `{"data":["<taskId>"]}`，轮询 `/tasks/{id}` 取：
-
-```
-output_data.result_response.result.image_url      // 单图
-output_data.result_response.result.image_urls[0]  // 多图
-output_data.result_response.result.video_url      // 视频
-```
-
-**CORS**：上游对任意 Origin 回显 `Access-Control-Allow-Origin`，预检 200，所以纯静态页能直连，不需要自建代理。
 
 ---
 
@@ -133,7 +141,7 @@ output_data.result_response.result.video_url      // 视频
 
 `tools/DreamVideo.exe`（75KB，需 .NET Framework 4.x，Win10/11 自带）双击即用，token 存在同目录 `cfg.ini`。
 
-从源码重新编译：
+从源码重编译：
 
 ```bat
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:DreamVideo.exe DreamVideo.cs
@@ -141,17 +149,35 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:Drea
 
 ---
 
-## 目录
+## 本地预览
 
+```bash
+python -m http.server 8000
+# 打开 http://127.0.0.1:8000/
 ```
-huimeng-studio/
-├── index.html          网页版（GitHub Pages 入口）
-├── tools/              gen.mjs / gen_video.mjs / DreamVideo.cs / DreamVideo.exe / Studio2.exe / 出图.bat
-├── docs/               report.md / prod_models.json / endpoints.txt / free_creations.md / prod_credentials.txt
-├── demo/               实测图片与视频
-├── assets/             UI 截图
-└── probe/              88 个探测脚本
-```
+
+不要用 `file://` 直接双击 `index.html` —— 上游的 CORS 预检在 `null` Origin 下会被拒。
+
+---
+
+## 排障
+
+| 现象 | 原因 | 处理 |
+|---|---|---|
+| 打开页面提示「离线」 | `/billing/points` 请求失败，token 过期或被风控 | 换自己的 token；或忽略（不影响出图） |
+| 提交后一直轮询不结束 | 上游排队，通常 40~80 秒，长尾可到 6 分钟 | 等，别重复提交（会重复扣积分） |
+| 状态 `FAILED` 但没图 | 真失败，不是那个「误报」怪癖 | 换模型或改 prompt 重试 |
+| 图生视频报 `missing first image` | 首帧 URL 为空 | 先上传一张图拿到直链，再填进去 |
+| 控制台报 CORS | 用了 `file://` 打开 | 起本地 HTTP 服务 |
+| 生成按钮一直灰 | 上一次任务还在跑（`busy` 锁） | 等它结束，或刷新页面 |
+
+---
+
+## 目录之外的资料
+
+- [`docs/report.md`](./docs/report.md) —— 完整逆向报告：鉴权、签名、OSS 上传、计费、风控
+- [`docs/prod_models.json`](./docs/prod_models.json) —— 40+ 模型的参数 schema 与计价表
+- [`probe/`](./probe) —— 88 个实测脚本，从匿名面探测到验证码绕过
 
 ---
 
