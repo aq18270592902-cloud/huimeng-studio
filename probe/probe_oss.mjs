@@ -7,7 +7,7 @@ for(const b of ['zy-dimnx','zy-dimnx-test']){
   console.log(' '+b+' 空路径', await probe('https://'+b+'.oss-cn-shenzhen.aliyuncs.com/'));
 }
 console.log('\n=== 429 重测（新号 + 不同 scene）===');
-const {B,H,j,aes,solveV2}=await import('file:///C:/Users/aq/Desktop/rrea-projects/huimeng/lib_captcha.mjs');
+const {B,H,j,aes,solveV2}=await import('./lib_captcha.mjs');
 const crypto=await import('node:crypto');
 async function ticket(){
   const uid=crypto.randomUUID();
