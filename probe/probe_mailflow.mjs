@@ -1,3 +1,4 @@
+import PWD from './lib_pwd.mjs';
 import fs from 'node:fs';
 const B='https://api-test.huimengi.com';
 const H={'Content-Type':'application/json','Accept':'application/json','Origin':B,'Referer':B+'/','User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36'};
@@ -9,7 +10,7 @@ console.log('mailacct',a.s,JSON.stringify(a.j||a.t).slice(0,200));
 let tk=await j('https://api.mail.tm/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:addr,password:mp})});
 console.log('mailtoken',tk.s, (tk.j?.token||'').slice(0,20));
 const mt=tk.j?.token;
-const stamp=Date.now(), username='vh'+String(stamp).slice(-8), password='Passw0rd!23';
+const stamp=Date.now(), username='vh'+String(stamp).slice(-8), password=PWD;
 let r=await fetch(B+'/api/v1/auth/register',{method:'POST',headers:H,body:JSON.stringify({email:addr,username,password})});
 const reg=await r.json();
 console.log('REG',r.status,JSON.stringify(reg).slice(0,160));
