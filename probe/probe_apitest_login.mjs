@@ -4,7 +4,7 @@ const H={'Content-Type':'application/json','Accept':'application/json','Origin':
 const stamp=Date.now();
 const email='probe'+stamp+'@example.com';
 const username='pr'+String(stamp).slice(-8);
-const password='Passw0rd!23';
+import password from './lib_pwd.mjs';
 let r=await fetch(B+'/api/v1/auth/register',{method:'POST',headers:H,body:JSON.stringify({email,username,password})});
 const reg=await r.json();
 console.log('REGISTER',r.status,JSON.stringify(reg).slice(0,300));
