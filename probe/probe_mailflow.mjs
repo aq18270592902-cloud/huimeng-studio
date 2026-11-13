@@ -13,7 +13,7 @@ const stamp=Date.now(), username='vh'+String(stamp).slice(-8), password='Passw0r
 let r=await fetch(B+'/api/v1/auth/register',{method:'POST',headers:H,body:JSON.stringify({email:addr,username,password})});
 const reg=await r.json();
 console.log('REG',r.status,JSON.stringify(reg).slice(0,160));
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_acct.json',JSON.stringify({addr,mp,username,password,userId:reg.id},null,2),'utf8');
+fs.writeFileSync('./_data/apitest_acct.json',JSON.stringify({addr,mp,username,password,userId:reg.id},null,2),'utf8');
 // poll mail
 let link=null,html=null;
 for(let i=0;i<15;i++){
@@ -36,5 +36,5 @@ if(link){
   console.log('VERIFY',v.s,JSON.stringify(v.j||v.t).slice(0,200));
   const lg=await j(B+'/api/v1/auth/login',{method:'POST',headers:H,body:JSON.stringify({username,password})});
   console.log('LOGIN',lg.s,JSON.stringify(lg.j).slice(0,300));
-  if(lg.j?.access_token) fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_token.json',JSON.stringify(lg.j,null,2),'utf8');
+  if(lg.j?.access_token) fs.writeFileSync('./_data/apitest_token.json',JSON.stringify(lg.j,null,2),'utf8');
 }
