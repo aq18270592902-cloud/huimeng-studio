@@ -54,7 +54,7 @@ huimeng-studio/
 ├── sw.js                   离线缓存（可选注册）
 ├── 404.html                自定义错误页
 ├── assets/                 og.png 分享图 + 4 尺寸图标 + UI 截图
-├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat
+├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat（cfg.ini 本地放 token，不入库）
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
 ├── demo/                   实测产物：3 张图 + 3 段视频
 └── probe/                  88 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
@@ -127,13 +127,28 @@ output_data.result_response.result.video_url       // 视频
 
 ## 换成自己的 token
 
-页面内置的是仓库所有者的测试账号 token（30 积分，用完即止）。换成自己的：
+网页版内置的是仓库所有者的测试账号 token（30 积分，用完即止）。换成自己的：
 
 1. 登录 <https://huimengi.com> → F12 → Application → Local Storage，找业务 token
-2. 三种换法任选：
-   - 控制台执行 `localStorage.setItem('hm_token', '你的token')` 后刷新
-   - 直接改 `index.html` 里的 `DEFAULT_TOKEN`
-   - 改 `tools/gen.mjs` 里的 `const TK`
+2. 网页版换法：控制台执行 `localStorage.setItem('hm_token', '你的token')` 后刷新（会覆盖内置值，优先级更高）
+3. 命令行换法（`tools/gen.mjs` **不再内置任何凭据**，三种给法任选）：
+
+```bash
+# A. 参数
+node tools/gen.mjs "一只橘猫" --token <jwt> --tid <tenantId> --tcode <tenantCode>
+
+# B. 环境变量
+set HM_TOKEN=<jwt>            # PowerShell: $env:HM_TOKEN="<jwt>"
+set HM_TENANT_ID=<tenantId>
+set HM_TENANT_CODE=<tenantCode>
+
+# C. 同目录 cfg.ini（已被 .gitignore 忽略）
+# token=<jwt>
+# tenant_id=<tenantId>
+# tenant_code=<tenantCode>
+```
+
+缺任一凭据时脚本直接 `exit 3` 并打印上面三种给法，不会带着空 token 去请求。
 
 ---
 
