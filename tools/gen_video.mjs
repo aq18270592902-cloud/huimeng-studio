@@ -4,9 +4,9 @@
 import fs from 'node:fs';
 import process from 'node:process';
 
-const TK=process.env.HM_TOKEN||"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjIxMTk2NDQzMTY2NTUwNzk0MjYsInJuU3RyIjoiRDlMSjdER0h2OWFRT2V5dEZFcUpqN2N6NENhSVlRN2UiLCJpcCI6IjE4My4yMTguMzYuMTczIiwiYWRkcmVzcyI6IuS4reWbvXzmsZ_opb_nnIF85a6c5pil5biCfOenu-WKqCIsImJyb3dzZXIiOiJDaHJvbWUgMTQwIiwib3MiOiJVbmtub3duIiwibG9naW5UaW1lIjoxNzk0MTk3OTA0fQ.93wIBQY-nNKWQo44B0qiXLprBwjRBfKSscycDxdpKRE";
+const TK=process.env.HM_TOKEN||(process.env.HM_TOKEN||"");
 const BASE='https://api.dimnx.com/api';
-const H={authorization:'Bearer '+TK,'x-tenant-id':process.env.HM_TID||'2119644316638302210','x-tenant-code':process.env.HM_TCODE||'THtf7Yx14fgV','content-type':'application/json'};
+const H={authorization:'Bearer '+TK,'x-tenant-id':process.env.HM_TID||(process.env.HM_TID||''),'x-tenant-code':process.env.HM_TCODE||(process.env.HM_TCODE||''),'content-type':'application/json'};
 
 const MODELS={
  'seedance-2-0-mini':{tt:'IMAGE_TO_VIDEO_SEEDANCE_2_0_MINI',label:'Seedance 2.0 mini(便宜,推荐)'},
