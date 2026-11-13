@@ -192,7 +192,7 @@ python -m http.server 8000
 
 - [`docs/report.md`](./docs/report.md) —— 完整逆向报告：鉴权、签名、OSS 上传、计费、风控
 - [`docs/prod_models.json`](./docs/prod_models.json) —— 40+ 模型的参数 schema 与计价表
-- [`probe/`](./probe) —— 88 个实测脚本，从匿名面探测到验证码绕过
+- [`probe/`](./tree/main/probe) —— 88 个实测脚本，从匿名面探测到验证码绕过
 
 ---
 
