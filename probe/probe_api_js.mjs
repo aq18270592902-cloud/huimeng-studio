@@ -2,7 +2,7 @@ import fs from 'node:fs';
 const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36';
 const r=await fetch('https://api-test.huimengi.com/assets/api-DKv0C9qa.js',{headers:{'User-Agent':UA,'Referer':'https://api-test.huimengi.com/'}});
 const t=await r.text();
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_api.js',t,'utf8');
+fs.writeFileSync('./_data/apitest_api.js',t,'utf8');
 console.log('len',t.length);
 const re=/["\x60'](\/[a-zA-Z0-9_\-./{}$:]{2,70})["\x60']/g;
 const paths=[...new Set([...t.matchAll(re)].map(m=>m[1]))];
