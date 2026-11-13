@@ -10,7 +10,7 @@ for(const h of hosts){
       const server=r.headers.get('server'),xa=r.headers.get('x-powered-by');
       console.log([h,scheme,r.status,server||'-',xa||'-','loc='+(r.headers.get('location')||'-'),'title='+(title||'-'),'len='+t.length].join(' | '));
       if(h==='gitlab.muchcloud.com'||h==='gitlab.yunxiacn.com'||h==='jenkins.yunxiacn.com'||h==='grafana.muchcloud.com'||h==='mq.dimnx.com'||h==='admin.dimnx.com'){
-        fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\host_'+h.replace(/\./g,'_')+'_'+scheme+'.html',t,'utf8');
+        fs.writeFileSync('./_data/host_'+h.replace(/\./g,'_')+'_'+scheme+'.html',t,'utf8');
       }
       break;
     }catch(e){ console.log(h,scheme,'ERR',String(e).slice(0,70)); }
