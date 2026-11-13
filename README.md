@@ -58,9 +58,21 @@ huimeng-studio/
 ├── assets/                 og.png 分享图 + 4 尺寸图标 + 4 张 UI 截图
 ├── tools/                  gen.mjs / gen_video.mjs / DreamVideo.cs / *.exe / *.bat（cfg.ini 本地放 token，不入库）
 ├── docs/                   report.md / prod_models.json / endpoints.txt / free_creations.md
-├── demo/                   实测样例：5 张出图（1600px JPEG，约 620KB）+ 4 段视频（约 11MB，仅作效果存档）
+├── demo/                   实测样例：5 张出图（1600px JPEG，约 620KB，直接随仓库分发）
+│                          4 段视频（共 11MB）已移到 Release 附件，见下方「视频样例」
 └── probe/                  88 个探测脚本（登录 / SSO / 验证码 / 上传 / 限流）
 ```
+
+### 视频样例（Release 附件）
+
+仓库体积控制，4 段实测视频放在 [v1.0.0 Release](https://github.com/aq18270592902-cloud/huimeng-studio/releases/tag/v1.0.0) 的附件里，不占仓库克隆体积：
+
+| 文件 | 规格 | 体积 | 直链 |
+|---|---|---|---|
+| video_10s.mp4 | 1280×720 / 24fps / 10.0s | 5.68MB | [下载](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/video_10s.mp4) |
+| video_test_720p.mp4 | 1280×720 / 24fps / 4.0s | 2.40MB | [下载](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/video_test_720p.mp4) |
+| video_test_480p.mp4 | 864×496 / 24fps / 4.0s | 1.25MB | [下载](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/video_test_480p.mp4) |
+| out_from_upload.mp4 | 864×496 / 24fps / 5.0s | 1.14MB | [下载](https://github.com/aq18270592902-cloud/huimeng-studio/releases/download/v1.0.0/out_from_upload.mp4) |
 
 ---
 
