@@ -1,6 +1,10 @@
-// 直接出图（不需要注册/爆破，用已有的主站 token）
+// 直接出图（用你自己的主站 token，不再内置任何凭据）
 // 用法: node gen.mjs "画面描述" [--out a.png] [--model z-image-turbo] [--tasktype TEXT_TO_IMAGE_Z_IMAGE_TURBO] [--scene]
-import { writeFileSync } from 'node:fs';
+//   token 来源优先级: --token 参数 > 环境变量 HM_TOKEN > 同目录 cfg.ini 里的 token=
+//   tenant 来源: --tid / --tcode 参数 > 环境变量 HM_TENANT_ID / HM_TENANT_CODE > cfg.ini
+import { writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const argv = process.argv.slice(2);
 const arg = (k, d) => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : d; };
@@ -12,10 +16,23 @@ const SCENE = argv.includes('--scene');
 const ENTITY_TYPE = SCENE ? 'scene' : 'character';
 const ENTITY_ID = SCENE ? '910141757731164776' : '910141757437563478';
 
-// 已在 prod_credentials.txt 中的可用主站 token
-const TK = arg('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjIxMTk2NDQzMTY2NTUwNzk0MjYsInJuU3RyIjoiRDlMSjdER0h2OWFRT2V5dEZFcUpqN2N6NENhSVlRN2UiLCJpcCI6IjE4My4yMTguMzYuMTczIiwiYWRkcmVzcyI6IuS4reWbvXzmsZ_opb_nnIF85a6c5pil5biCfOenu-WKqCIsImJyb3dzZXIiOiJDaHJvbWUgMTQwIiwib3MiOiJVbmtub3duIiwibG9naW5UaW1lIjoxNzk0MTk3OTA0fQ.93wIBQY-nNKWQo44B0qiXLprBwjRBfKSscycDxdpKRE');
-const TID = arg('tid', '2119644316638302210');
-const TCODE = arg('tcode', 'THtf7Yx14fgV');
+// ---- 凭据：只从外部读，源码里不留 ----
+const CFG = join(dirname(fileURLToPath(import.meta.url)), 'cfg.ini');
+function fromCfg(key) {
+  if (!existsSync(CFG)) return '';
+  const m = new RegExp('^\\s*' + key + '\\s*=\\s*(.+?)\\s*$', 'm').exec(readFileSync(CFG, 'utf8'));
+  return m ? m[1] : '';
+}
+const TK = arg('token', process.env.HM_TOKEN || fromCfg('token'));
+const TID = arg('tid', process.env.HM_TENANT_ID || fromCfg('tenant_id'));
+const TCODE = arg('tcode', process.env.HM_TENANT_CODE || fromCfg('tenant_code'));
+if (!TK || !TID || !TCODE) {
+  console.error('缺少凭据。三种给法任选：');
+  console.error('  1) node gen.mjs "描述" --token <jwt> --tid <id> --tcode <code>');
+  console.error('  2) set HM_TOKEN=<jwt> & set HM_TENANT_ID=<id> & set HM_TENANT_CODE=<code>   (PowerShell 用 $env:)');
+  console.error('  3) 在本文件同目录建 cfg.ini，写三行 token= / tenant_id= / tenant_code=');
+  process.exit(3);
+}
 const H = { Authorization: 'Bearer ' + TK, 'x-tenant-id': TID, 'x-tenant-code': TCODE, 'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0' };
 
 console.log('[1] 提交:', prompt);
