@@ -13,7 +13,7 @@ const lg=await r.json();
 console.log('LOGIN',r.status,JSON.stringify(lg).slice(0,400));
 const tok=lg.access_token||lg.token;
 if(!tok){console.log('no token');process.exit(0);}
-fs.writeFileSync('C:\\Users\\aq\\Desktop\\rrea-projects\\huimeng\\apitest_session.json',JSON.stringify({email,username,password,...lg},null,2),'utf8');
+fs.writeFileSync('./_data/apitest_session.json',JSON.stringify({email,username,password,...lg},null,2),'utf8');
 const AH={...H,Authorization:'Bearer '+tok};
 const g=async(p)=>{try{const x=await fetch(B+p,{headers:AH,signal:AbortSignal.timeout(12000)});const t=await x.text();return {s:x.status,t:t}}catch(e){return {s:0,t:'ERR'+String(e).slice(0,50)}}};
 for(const p of ['/api/v1/auth/me','/api/v1/users/me','/api/v1/auth/profile','/api/v1/api-keys','/api/v1/keys','/api/v1/teams','/api/v1/dashboard/overview','/api/v1/usage','/api/v1/models','/api/v1/pricing','/api/v1/balance','/api/v1/wallet','/api/v1/promos','/api/v1/auth/session']){
